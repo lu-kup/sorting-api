@@ -5,6 +5,7 @@ using Domain.Exceptions;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Domain.Models.DTO;
+using Domain.Models.Validation;
 
 namespace Application.Services;
 
@@ -56,6 +57,8 @@ public class DataProcessingService : IDataProcessingService
 
     private int[] ParseNumberLine(string numberLine)
     {
+        NumberLineValidation.Validate(numberLine);
+
         var stringArray = numberLine.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
         var intArray = Array.ConvertAll(stringArray, int.Parse);
 
