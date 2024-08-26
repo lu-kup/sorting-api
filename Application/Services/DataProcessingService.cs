@@ -41,7 +41,7 @@ public class DataProcessingService : IDataProcessingService
         return sortingOutputDTO;
     }
 
-    public async Task<int[]> GetLatestAsync()
+    public async Task<string> GetLatestAsync()
     {
         var latestArray = await _arrayRepository.GetLatestArrayAsync();
 

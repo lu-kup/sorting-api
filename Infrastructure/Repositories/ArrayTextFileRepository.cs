@@ -4,13 +4,26 @@ namespace Infrastructure.Repositories;
 
 public class ArrayTextFileRepository : IArrayRepository
 {
-    private readonly StreamWriter _writer = new("result.txt");
+    private const string DataDirectoryPath = ".";
+    private const string TextFilePattern = @"*.txt";
 
-    public async Task SaveArrayAsync(int[] array) =>
-        await _writer.WriteLineAsync(string.Join(" ", array));
-
-    public async Task<int[]> GetLatestArrayAsync()
+    public async Task SaveArrayAsync(int[] array)
     {
-        throw new NotImplementedException();
+        var outputNumberLine = string.Join(' ', array);
+
+        File.WriteAllText(DataDirectoryPath + "\result.txt", outputNumberLine);        
+    }
+
+    public async Task<string> GetLatestArrayAsync()
+    {
+        var directory = new DirectoryInfo(DataDirectoryPath);
+
+        var latestFile = directory.GetFiles(TextFilePattern)
+            .OrderByDescending(f => f.LastWriteTime)
+            .First();
+
+        var latestFileContents = File.ReadAllText(latestFile.FullName);
+
+        return latestFileContents;
     }
 }
