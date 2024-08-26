@@ -1,6 +1,10 @@
 namespace Domain.Models.DTO;
 
-public record SortingOutputDTO : SortingBaseDTO
+using Domain.Models.Enums;
+
+public record SortingOutputDTO
 {
-    public TimeSpan calculationTime { get; init; }
+    public required int[] SortedArray { get; init; }
+    public required SortingAlgorithm SortingAlgorithm { get; init; }
+    public TimeSpan CalculationTime { get; init; }
 }

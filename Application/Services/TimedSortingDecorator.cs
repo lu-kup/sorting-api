@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Domain.Interfaces.Services;
 using Domain.Models.DTO;
+using Domain.Models.Enums;
 
 namespace Application.Services;
 
@@ -14,15 +15,15 @@ public class TimedSortingDecorator : ISortingService
         _sortingService = sortingService;
     }
 
-    public SortingOutputDTO Sort(SortingInputDTO sortingInputDTO)
+    public SortingOutputDTO Sort(int[] inputArray, SortingAlgorithm sortingAlgorithm)
     {
         _stopwatch.Start();
-        var sortingOutputDTO = _sortingService.Sort(sortingInputDTO);
+        var sortingOutputDTO = _sortingService.Sort(inputArray, sortingAlgorithm);
         _stopwatch.Stop();
 
         return sortingOutputDTO with
         {
-            calculationTime = _stopwatch.Elapsed
+            CalculationTime = _stopwatch.Elapsed
         };
     }
 }

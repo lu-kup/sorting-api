@@ -29,9 +29,11 @@ public class DataProcessingService : IDataProcessingService
 
     public async Task<SortingOutputDTO> SortAsync(SortingInputDTO sortingInputDTO)
     {
-        var sortingOutputDTO = _sortingService.Sort(sortingInputDTO);
+        var numberArray = ParseNumberLine(sortingInputDTO.NumberLine);
 
-        await _arrayRepository.SaveArrayAsync(sortingOutputDTO.NumberLine);
+        var sortingOutputDTO = _sortingService.Sort(numberArray, sortingInputDTO.SortingAlgorithm);
+
+        await _arrayRepository.SaveArrayAsync(sortingOutputDTO.SortedArray);
 
         _logger.LogInformation(SuccessfullySortedMessage);
 
@@ -50,5 +52,13 @@ public class DataProcessingService : IDataProcessingService
         _logger.LogInformation(SuccessfullyRetrievedMessage);
 
         return latestArray;
+    }
+
+    private int[] ParseNumberLine(string numberLine)
+    {
+        var stringArray = numberLine.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var intArray = Array.ConvertAll(stringArray, int.Parse);
+
+        return intArray;
     }
 }

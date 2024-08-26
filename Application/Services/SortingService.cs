@@ -6,10 +6,10 @@ namespace Application.Services;
 
 public class SortingService : ISortingService
 {
-    public SortingOutputDTO Sort(SortingInputDTO sortingInputDTO) =>
-        sortingInputDTO.SortingAlgorithm switch 
+    public SortingOutputDTO Sort(int[] inputArray, SortingAlgorithm sortingAlgorithm) =>
+        sortingAlgorithm switch 
         {
-            SortingAlgorithm.SelectionSort =>  SelectionSort(sortingInputDTO.NumberLine),
+            SortingAlgorithm.SelectionSort =>  SelectionSort(inputArray),
             _ => throw new InvalidOperationException()
         };
 

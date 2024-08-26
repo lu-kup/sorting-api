@@ -1,5 +1,9 @@
 namespace Domain.Models.DTO;
 
-public record SortingInputDTO : SortingBaseDTO
+using Domain.Models.Enums;
+
+public record SortingInputDTO
 {
+    public required string NumberLine { get; init; }
+    public required SortingAlgorithm SortingAlgorithm { get; init; } = default;
 }
