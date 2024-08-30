@@ -4,6 +4,7 @@ using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Domain.Models.DTO;
 using Application.Utilities;
+using Domain.Models.Validation;
 
 namespace Application.Services;
 
@@ -30,13 +31,13 @@ public class RequestProcessingService : IRequestProcessingService
     {
         var numberArray = ArraySerializationUtility.Deserialize(sortingInputDTO.NumberLine);
 
-        var sortingOutputDTO = _sortingService.Sort(numberArray, sortingInputDTO.SortingAlgorithm);
+        var sortingResult = _sortingService.Sort(numberArray, sortingInputDTO.SortingAlgorithm);
 
-        await _arrayRepository.SaveAsync(sortingOutputDTO.SortedArray);
+        await _arrayRepository.SaveAsync(sortingResult.SortedArray);
 
         _logger.LogInformation(SuccessfullySortedMessage);
 
-        return sortingOutputDTO;
+        return MapSortingOutputDTO(sortingResult);
     }
 
     public async Task<string> GetLatestAsync()
@@ -48,8 +49,18 @@ public class RequestProcessingService : IRequestProcessingService
             throw new ArrayNotFoundException();
         }
 
+        NumberLineValidation.Validate(latestArray);
+
         _logger.LogInformation(SuccessfullyRetrievedMessage);
 
         return latestArray;
     }
+
+    private SortingOutputDTO MapSortingOutputDTO(SortingResultDTO sortingResult) =>
+        new()
+        {
+            NumberLine = ArraySerializationUtility.Serialize(sortingResult.SortedArray),
+            SortingAlgorithm = sortingResult.SortingAlgorithm,
+            CalculationTime = sortingResult.CalculationTime
+        };
 }

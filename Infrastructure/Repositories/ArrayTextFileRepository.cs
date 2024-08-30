@@ -8,20 +8,21 @@ public class ArrayTextFileRepository : IArrayRepository
     private const string DataDirectory = "Data";
     private const string InfrastructureDirectory = "Infrastructure";
     private const string TextFilePattern = @"*.txt";
-    private const string DirectoryMissingMessage = "Directory at the provided data output path does not exist.";
 
-    private string _dataDirectoryPath;
+    private readonly string _dataDirectoryPath;
 
     public ArrayTextFileRepository()
     {
+        var baseDirectory = Directory.GetParent(Directory.GetCurrentDirectory());
+
         _dataDirectoryPath = Path.Combine(
-            AppDomain.CurrentDomain.BaseDirectory,
+            baseDirectory?.FullName ?? ".",
             InfrastructureDirectory,
             DataDirectory);
 
         if (!Directory.Exists(_dataDirectoryPath))
         {
-            throw new DirectoryNotFoundException(DirectoryMissingMessage);
+            throw new DirectoryNotFoundException(GetDirectoryMissingMessage());
         }
     }
 
@@ -31,7 +32,7 @@ public class ArrayTextFileRepository : IArrayRepository
 
         var filePath = Path.Combine(_dataDirectoryPath, GenerateFilename());
 
-        File.WriteAllText(filePath, arrayData);        
+        await File.WriteAllTextAsync(filePath, arrayData);        
     }
 
     public async Task<string> GetLatestAsync()
@@ -42,11 +43,14 @@ public class ArrayTextFileRepository : IArrayRepository
             .OrderByDescending(f => f.LastWriteTime)
             .First();
 
-        var latestFileContents = File.ReadAllText(latestFile.FullName);
+        var latestFileContents = await File.ReadAllTextAsync(latestFile.FullName);
 
         return latestFileContents;
     }
 
     private string GenerateFilename() =>
         $"Result_{DateTime.UtcNow.ToString("MM-dd_HH:mm:ss")}.txt";
+
+    private string GetDirectoryMissingMessage() => 
+        $"Directory at the provided data output path does not exist. Path: {_dataDirectoryPath}";
 }

@@ -20,17 +20,17 @@ public class SortingController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<SortingOutputDTO>> Sort([FromBody] SortingInputDTO sortingInputDTO)
     {
-        var sortingOutputDTO = await _requestProcessingService.SortAsync(sortingInputDTO);
+        var sortingResultDTO = await _requestProcessingService.SortAsync(sortingInputDTO);
 
-        return StatusCode(201, sortingOutputDTO);
+        return StatusCode(201, sortingResultDTO);
     }
 
     [ProducesResponseType(200)]
     [HttpGet]
     public async Task<ActionResult> GetLatest()
     {
-        var sortingOutputDTO = await _requestProcessingService.GetLatestAsync();
+        var sortingResultDTO = await _requestProcessingService.GetLatestAsync();
 
-        return Ok(sortingOutputDTO);
+        return Ok(sortingResultDTO);
     }
 }

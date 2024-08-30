@@ -39,7 +39,7 @@ public class RequestProcessingServiceTests
             SortingAlgorithm = SortingAlgorithm.BubbleSort
         };
 
-        var sortingOutputMock = new SortingOutputDTO()
+        var sortingResultMock = new SortingResultDTO()
         {
             SortedArray = new int[] { 1 },
             SortingAlgorithm = SortingAlgorithm.BubbleSort
@@ -49,7 +49,7 @@ public class RequestProcessingServiceTests
         _sortingServiceMock
             .Setup(x => x.Sort(It.IsAny<int[]>(), It.IsAny<SortingAlgorithm>()))
             .Callback<int[], SortingAlgorithm>((outputArray, _) => parsedArray = outputArray)
-            .Returns(sortingOutputMock);
+            .Returns(sortingResultMock);
 
         // Act
         await _requestProcessingService.SortAsync(sortingInput);
@@ -63,6 +63,7 @@ public class RequestProcessingServiceTests
     [InlineData("10-00-3-00")]
     [InlineData("labas")]
     [InlineData("4 5 2 2,34 5")]
+    [InlineData(" ")]
     public async Task SortAsync_GivenInvalidInputNumberLine_Throws(string numberLine)
     {
         // Arrange

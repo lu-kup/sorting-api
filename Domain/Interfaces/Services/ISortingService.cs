@@ -5,5 +5,5 @@ namespace Domain.Interfaces.Services;
 
 public interface ISortingService
 {
-    SortingOutputDTO Sort(int[] array, SortingAlgorithm sortingAlgorithm);
+    SortingResultDTO Sort(int[] array, SortingAlgorithm sortingAlgorithm);
 }

@@ -15,13 +15,13 @@ public class TimedSortingDecorator : ISortingService
         _sortingService = sortingService;
     }
 
-    public SortingOutputDTO Sort(int[] inputArray, SortingAlgorithm sortingAlgorithm)
+    public SortingResultDTO Sort(int[] inputArray, SortingAlgorithm sortingAlgorithm)
     {
         _stopwatch.Start();
-        var sortingOutputDTO = _sortingService.Sort(inputArray, sortingAlgorithm);
+        var sortingResultDTO = _sortingService.Sort(inputArray, sortingAlgorithm);
         _stopwatch.Stop();
 
-        return sortingOutputDTO with
+        return sortingResultDTO with
         {
             CalculationTime = _stopwatch.Elapsed
         };

@@ -22,11 +22,11 @@ public class SortingServiceTests
         var expectedSortedArray = new int[] { 1, 2, 2, 3, 3, 10, 30 };
 
         // Act
-        var sortingOutput = _sortingService.Sort(inputArray, sortingAlgorithm);
+        var sortingResult = _sortingService.Sort(inputArray, sortingAlgorithm);
 
         // Assert
-        Assert.Equal(expectedSortedArray, sortingOutput.SortedArray);
-        Assert.Equal(sortingAlgorithm, sortingOutput.SortingAlgorithm);
+        Assert.Equal(expectedSortedArray, sortingResult.SortedArray);
+        Assert.Equal(sortingAlgorithm, sortingResult.SortingAlgorithm);
     }
 
     [Theory]
@@ -42,10 +42,10 @@ public class SortingServiceTests
         var sortingAlgorithm = SortingAlgorithm.BubbleSort;
 
         // Act
-        var sortingOutput = _sortingService.Sort(inputArray, sortingAlgorithm);
+        var sortingResult = _sortingService.Sort(inputArray, sortingAlgorithm);
 
         // Assert
-        Assert.Equal(expectedSortedArray, sortingOutput.SortedArray);
-        Assert.Equal(sortingAlgorithm, sortingOutput.SortingAlgorithm);
+        Assert.Equal(expectedSortedArray, sortingResult.SortedArray);
+        Assert.Equal(sortingAlgorithm, sortingResult.SortingAlgorithm);
     }
 }

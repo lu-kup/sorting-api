@@ -20,7 +20,7 @@ public class TimedSortingDecoratorTests
     [InlineData(100)]
     [InlineData(1000)]
     [InlineData(2000)]
-    public async Task SortAsync_GivenValidInputNumberLine_ReturnsResultWithCalculationTime(int calculationMilliseconds)
+    public void Sort_GivenValidInputNumberLine_ReturnsResultWithCalculationTime(int calculationMilliseconds)
     {
         // Arrange
         var simulatedCalculationTime = TimeSpan.FromMilliseconds(calculationMilliseconds);
@@ -28,7 +28,7 @@ public class TimedSortingDecoratorTests
         var numberLineMock = new int[] { 1 };
         var sortingAlgorithmMock = SortingAlgorithm.BubbleSort;
 
-        var sortingOutputMock = new SortingOutputDTO()
+        var sortingResultMock = new SortingResultDTO()
         {
             SortedArray = new int[] { 1 },
             SortingAlgorithm = sortingAlgorithmMock
@@ -37,14 +37,14 @@ public class TimedSortingDecoratorTests
         _sortingServiceMock
             .Setup(x => x.Sort(It.IsAny<int[]>(), It.IsAny<SortingAlgorithm>()))
             .Callback(() => Thread.Sleep(simulatedCalculationTime))
-            .Returns(sortingOutputMock);
+            .Returns(sortingResultMock);
 
         // Act
-        var timedSortingOutput = _timedSortingDecorator.Sort(numberLineMock, sortingAlgorithmMock);
+        var timedSortingResult = _timedSortingDecorator.Sort(numberLineMock, sortingAlgorithmMock);
 
         // Assert
-        Assert.True(timedSortingOutput.CalculationTime > simulatedCalculationTime);
-        Assert.Equal(sortingOutputMock.SortedArray, timedSortingOutput.SortedArray);
-        Assert.Equal(sortingOutputMock.SortingAlgorithm, timedSortingOutput.SortingAlgorithm);
+        Assert.True(timedSortingResult.CalculationTime >= simulatedCalculationTime);
+        Assert.Equal(sortingResultMock.SortedArray, timedSortingResult.SortedArray);
+        Assert.Equal(sortingResultMock.SortingAlgorithm, timedSortingResult.SortingAlgorithm);
     }
 }

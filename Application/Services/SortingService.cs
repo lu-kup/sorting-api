@@ -6,7 +6,7 @@ namespace Application.Services;
 
 public class SortingService : ISortingService
 {
-    public SortingOutputDTO Sort(int[] inputArray, SortingAlgorithm sortingAlgorithm) =>
+    public SortingResultDTO Sort(int[] inputArray, SortingAlgorithm sortingAlgorithm) =>
         sortingAlgorithm switch 
         {
             SortingAlgorithm.BubbleSort => BubbleSort(inputArray),
@@ -14,7 +14,7 @@ public class SortingService : ISortingService
             _ => throw new InvalidOperationException()
         };
 
-    private SortingOutputDTO BubbleSort(int[] array)
+    private SortingResultDTO BubbleSort(int[] array)
     {
         var length = array.Length;
         bool swapped;
@@ -41,7 +41,7 @@ public class SortingService : ISortingService
         };
     }
 
-    private SortingOutputDTO SelectionSort(int[] array)
+    private SortingResultDTO SelectionSort(int[] array)
     {
         throw new NotImplementedException();
     }
