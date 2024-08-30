@@ -2,7 +2,7 @@ using Domain.Models.DTO;
 
 namespace Domain.Interfaces.Services;
 
-public interface IDataProcessingService
+public interface IRequestProcessingService
 {
     Task<SortingOutputDTO> SortAsync(SortingInputDTO sortingInputDTO);
     Task<string> GetLatestAsync();

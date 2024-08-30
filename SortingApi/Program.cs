@@ -8,7 +8,7 @@ using SortingApi.Middleware;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IArrayRepository, ArrayTextFileRepository>();
-builder.Services.AddScoped<IDataProcessingService, DataProcessingService>();
+builder.Services.AddScoped<IRequestProcessingService, RequestProcessingService>();
 builder.Services.AddScoped<SortingService>();
 builder.Services.AddScoped<ISortingService>(x =>
     new TimedSortingDecorator(x.GetRequiredService<SortingService>()));

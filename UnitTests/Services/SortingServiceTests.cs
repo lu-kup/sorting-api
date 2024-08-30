@@ -15,11 +15,31 @@ public class SortingServiceTests
 
     [Theory]
     [InlineData(SortingAlgorithm.BubbleSort)]
-    public async Task Sort_GivenValidSortingAlgorithm_SortsArrayCorrectly(SortingAlgorithm sortingAlgorithm)
+    public void Sort_GivenValidSortingAlgorithm_SortsCorrectly(SortingAlgorithm sortingAlgorithm)
     {
         // Arrange
         var inputArray = new int[] { 10, 2, 30, 1, 3, 3, 2 };
         var expectedSortedArray = new int[] { 1, 2, 2, 3, 3, 10, 30 };
+
+        // Act
+        var sortingOutput = _sortingService.Sort(inputArray, sortingAlgorithm);
+
+        // Assert
+        Assert.Equal(expectedSortedArray, sortingOutput.SortedArray);
+        Assert.Equal(sortingAlgorithm, sortingOutput.SortingAlgorithm);
+    }
+
+    [Theory]
+    [InlineData(new int[] { 132 }, new int[] { 132 })]
+    [InlineData(new int[] { 10, 0, 3, 3 }, new int[] { 0, 3, 3, 10 })]
+    [InlineData(new int[] { 1, 1, 1 }, new int[] { 1, 1, 1 })]
+    [InlineData(new int[] { 34534, 345, 22, 34, 635 }, new int[] { 22, 34, 345, 635, 34534 })]
+    public void BubbleSort_GivenVariousInputArrays_SortsCorrectly(
+        int[] inputArray,
+        int[] expectedSortedArray)
+    {
+        // Arrange
+        var sortingAlgorithm = SortingAlgorithm.BubbleSort;
 
         // Act
         var sortingOutput = _sortingService.Sort(inputArray, sortingAlgorithm);

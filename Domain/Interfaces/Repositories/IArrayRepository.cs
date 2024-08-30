@@ -2,6 +2,6 @@ namespace Domain.Interfaces.Repositories;
 
 public interface IArrayRepository
 {
-    Task SaveArrayAsync(int[] array);
-    Task<string> GetLatestArrayAsync();
+    Task SaveAsync(int[] array);
+    Task<string> GetLatestAsync();
 }

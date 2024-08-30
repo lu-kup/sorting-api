@@ -9,18 +9,18 @@ namespace SortingApi.Controllers;
 [ApiController]
 public class SortingController : ControllerBase
 {
-    private readonly IDataProcessingService _dataProcessingService;
+    private readonly IRequestProcessingService _requestProcessingService;
 
-    public SortingController(IDataProcessingService dataProcessingService)
+    public SortingController(IRequestProcessingService RequestProcessingService)
     {
-        _dataProcessingService = dataProcessingService;
+        _requestProcessingService = RequestProcessingService;
     }
 
     [ProducesResponseType(201)]
     [HttpPost]
     public async Task<ActionResult<SortingOutputDTO>> Sort([FromBody] SortingInputDTO sortingInputDTO)
     {
-        var sortingOutputDTO = await _dataProcessingService.SortAsync(sortingInputDTO);
+        var sortingOutputDTO = await _requestProcessingService.SortAsync(sortingInputDTO);
 
         return StatusCode(201, sortingOutputDTO);
     }
@@ -29,7 +29,7 @@ public class SortingController : ControllerBase
     [HttpGet]
     public async Task<ActionResult> GetLatest()
     {
-        var sortingOutputDTO = await _dataProcessingService.GetLatestAsync();
+        var sortingOutputDTO = await _requestProcessingService.GetLatestAsync();
 
         return Ok(sortingOutputDTO);
     }

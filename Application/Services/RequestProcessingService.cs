@@ -1,27 +1,25 @@
-using System.ComponentModel.DataAnnotations;
-using System.Data;
 using Microsoft.Extensions.Logging;
 using Domain.Exceptions;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Domain.Models.DTO;
-using Domain.Models.Validation;
+using Application.Utilities;
 
 namespace Application.Services;
 
-public class DataProcessingService : IDataProcessingService
+public class RequestProcessingService : IRequestProcessingService
 {
     private const string SuccessfullySortedMessage = "Application successfully sorted and saved the input array.";
     private const string SuccessfullyRetrievedMessage = "Application successfully retrieved the latest saved array.";
 
     private readonly IArrayRepository _arrayRepository;
     private readonly ISortingService _sortingService;
-    private readonly ILogger<DataProcessingService> _logger;
+    private readonly ILogger<RequestProcessingService> _logger;
 
-    public DataProcessingService(
+    public RequestProcessingService(
         IArrayRepository arrayRepository,
         ISortingService sortingService,
-        ILogger<DataProcessingService> logger)
+        ILogger<RequestProcessingService> logger)
     {
         _arrayRepository = arrayRepository;
         _sortingService = sortingService;
@@ -30,11 +28,11 @@ public class DataProcessingService : IDataProcessingService
 
     public async Task<SortingOutputDTO> SortAsync(SortingInputDTO sortingInputDTO)
     {
-        var numberArray = ParseNumberLine(sortingInputDTO.NumberLine);
+        var numberArray = ArraySerializationUtility.Deserialize(sortingInputDTO.NumberLine);
 
         var sortingOutputDTO = _sortingService.Sort(numberArray, sortingInputDTO.SortingAlgorithm);
 
-        await _arrayRepository.SaveArrayAsync(sortingOutputDTO.SortedArray);
+        await _arrayRepository.SaveAsync(sortingOutputDTO.SortedArray);
 
         _logger.LogInformation(SuccessfullySortedMessage);
 
@@ -43,7 +41,7 @@ public class DataProcessingService : IDataProcessingService
 
     public async Task<string> GetLatestAsync()
     {
-        var latestArray = await _arrayRepository.GetLatestArrayAsync();
+        var latestArray = await _arrayRepository.GetLatestAsync();
 
         if (latestArray is null)
         {
@@ -53,15 +51,5 @@ public class DataProcessingService : IDataProcessingService
         _logger.LogInformation(SuccessfullyRetrievedMessage);
 
         return latestArray;
-    }
-
-    private int[] ParseNumberLine(string numberLine)
-    {
-        NumberLineValidation.Validate(numberLine);
-
-        var stringArray = numberLine.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        var intArray = Array.ConvertAll(stringArray, int.Parse);
-
-        return intArray;
     }
 }
