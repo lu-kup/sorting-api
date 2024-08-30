@@ -45,7 +45,7 @@ public class ExceptionHandlingMiddleware
     private static int GetHtttpStatusCode(Exception exception) => exception switch
     {
         ValidationException => StatusCodes.Status400BadRequest,
-        EntityNotFoundException => StatusCodes.Status404NotFound,
+        ArrayNotFoundException => StatusCodes.Status404NotFound,
         _ => StatusCodes.Status500InternalServerError
     };
 

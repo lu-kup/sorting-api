@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using Application.Services;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
-using Infrastructure.Data;
 using Infrastructure.Repositories;
 using SortingApi.Middleware;
 

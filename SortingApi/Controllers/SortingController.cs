@@ -11,7 +11,7 @@ public class SortingController : ControllerBase
 {
     private readonly IDataProcessingService _dataProcessingService;
 
-    public SortingController(IDataProcessingService _dataProcessingService)
+    public SortingController(IDataProcessingService dataProcessingService)
     {
         _dataProcessingService = dataProcessingService;
     }
