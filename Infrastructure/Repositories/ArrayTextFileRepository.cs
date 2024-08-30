@@ -4,7 +4,7 @@ namespace Infrastructure.Repositories;
 
 public class ArrayTextFileRepository : IArrayRepository
 {
-    private const string DataDirectoryPath = ".";
+    private const string DataDirectoryPath = "Output";
     private const string TextFilePattern = @"*.txt";
 
     public async Task SaveArrayAsync(int[] array)
