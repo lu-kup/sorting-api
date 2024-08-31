@@ -13,6 +13,7 @@ public class SortingService : ISortingService
             SortingAlgorithm.SelectionSort =>  SelectionSort(inputArray),
             SortingAlgorithm.InsertionSort => InsertionSort(inputArray),
             SortingAlgorithm.QuickSort => QuickSort(inputArray),
+            SortingAlgorithm.MergeSort => MergeSort(inputArray),
             _ => throw new InvalidOperationException()
         };
 
@@ -109,6 +110,17 @@ public class SortingService : ISortingService
         };
     }
 
+    private SortingResultDTO MergeSort(int[] array)
+    {
+        RunMergeSort(array);
+
+        return new()
+        {
+            SortedArray = array,
+            SortingAlgorithm = SortingAlgorithm.MergeSort
+        };
+    }
+
     private void RunQuickSort(int[] array, int lowIndex, int highIndex)
     {
         if (lowIndex >= highIndex) return;
@@ -137,10 +149,72 @@ public class SortingService : ISortingService
         return i;
     }
 
-    private void Swap(int[] array, int leftIndex, int rightIndex)
-    {
-        var temp = array[leftIndex];
-        array[leftIndex] = array[rightIndex];
-        array[rightIndex] = temp;
-    }
+    private void RunMergeSort(int[] array)
+    {	
+		var length = array.Length;
+		if (length <= 1) return;
+
+		var middleIndex = length / 2;
+		var leftArray = new int[middleIndex];
+		var rightArray = new int[length - middleIndex];
+		
+		var i = 0;
+        while (i < middleIndex)
+        {
+            leftArray[i] = array[i];
+            i++;
+        }
+
+        var j = 0;
+        while (i < length)
+        {
+            rightArray[j] = array[i];
+            i++;
+            j++;
+        }
+
+		RunMergeSort(leftArray);
+		RunMergeSort(rightArray);
+		Merge(leftArray, rightArray, array);
+	}
+
+	private void Merge(int[] leftArray, int[] rightArray, int[] array)
+    {	
+		var leftLength = leftArray.Length;
+		var rightLength = rightArray.Length;
+
+		var i = 0;
+        var l = 0;
+        var r = 0;
+
+		while(l < leftLength && r < rightLength)
+        {
+			if (leftArray[l] < rightArray[r])
+            {
+				array[i] = leftArray[l];
+				l++;
+			}
+			else
+            {
+				array[i] = rightArray[r];
+				r++;
+			}
+            i++;
+		}
+		while (l < leftLength)
+        {
+			array[i] = leftArray[l];
+			i++;
+			l++;
+		}
+		while (r < rightLength)
+        {
+			array[i] = rightArray[r];
+			i++;
+			r++;
+		}
+	}
+
+    private void Swap(int[] array, int leftIndex, int rightIndex) =>
+        (array[leftIndex], array[rightIndex]) = (array[rightIndex], array[leftIndex]);
 }

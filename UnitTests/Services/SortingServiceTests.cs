@@ -18,6 +18,7 @@ public class SortingServiceTests
     [InlineData(SortingAlgorithm.SelectionSort)]
     [InlineData(SortingAlgorithm.InsertionSort)]
     [InlineData(SortingAlgorithm.QuickSort)]
+    [InlineData(SortingAlgorithm.MergeSort)]
     public void Sort_GivenValidSortingAlgorithm_SortsCorrectly(SortingAlgorithm sortingAlgorithm)
     {
         // Arrange
