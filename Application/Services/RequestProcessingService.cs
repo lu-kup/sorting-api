@@ -5,6 +5,7 @@ using Domain.Interfaces.Services;
 using Domain.Models.DTO;
 using Application.Utilities;
 using Domain.Models.Validation;
+using Domain.Models.Enums;
 
 namespace Application.Services;
 
@@ -40,6 +41,26 @@ public class RequestProcessingService : IRequestProcessingService
         return MapSortingOutputDTO(sortingResult);
     }
 
+    public async Task<IEnumerable<SortingOutputDTO>> SortAllAlgorithmsAsync(string numberLine)
+    {
+        var numberArray = ArraySerializationUtility.Deserialize(numberLine);
+
+        var resultList = new List<SortingResultDTO>();
+        var algorithms = Enum.GetValues<SortingAlgorithm>();
+
+        var tasks = algorithms.Select(async algorithm =>
+        {
+            var sortingResult = _sortingService.Sort(numberArray, algorithm);
+            await _arrayRepository.SaveAsync(sortingResult.SortedArray);
+            resultList.Add(sortingResult);
+        });
+        await Task.WhenAll(tasks);
+
+        _logger.LogInformation(SuccessfullySortedMessage);
+
+        return resultList.Select(x => MapSortingOutputDTO(x));
+    }
+
     public async Task<string> GetLatestAsync()
     {
         var latestArray = await _arrayRepository.GetLatestAsync();
@@ -61,6 +82,6 @@ public class RequestProcessingService : IRequestProcessingService
         {
             NumberLine = ArraySerializationUtility.Serialize(sortingResult.SortedArray),
             SortingAlgorithm = sortingResult.SortingAlgorithm,
-            CalculationTime = sortingResult.CalculationTime
+            CalculationTimeInMilliseconds = $"{sortingResult.CalculationTime.TotalMilliseconds:N5} ms"
         };
 }

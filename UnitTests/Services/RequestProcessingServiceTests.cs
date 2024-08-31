@@ -1,5 +1,3 @@
-#nullable enable
-
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Extensions.Logging;
 using Application.Services;
@@ -78,6 +76,36 @@ public class RequestProcessingServiceTests
         // Act and assert
         await Assert.ThrowsAsync<ValidationException>(
             async () => await _requestProcessingService.SortAsync(sortingInput));
+    }
+
+    [Fact]
+    public async Task SortAllAlgorithmsAsync_GivenValidInputNumberLine_SortsMultipleTimes()
+    {
+        // Arrange
+        var numberLineMock = "34534 345  22 34  635";
+
+        var sortingResultMock = new SortingResultDTO()
+        {
+            SortedArray = new int[] { 1 },
+            SortingAlgorithm = SortingAlgorithm.BubbleSort
+        };
+
+        _sortingServiceMock
+            .Setup(x => x.Sort(It.IsAny<int[]>(), It.IsAny<SortingAlgorithm>()))
+            .Returns(sortingResultMock);
+
+        var expectedCount = Enum.GetValues<SortingAlgorithm>().Count();
+
+        // Act
+        var resultList = await _requestProcessingService.SortAllAlgorithmsAsync(numberLineMock);
+
+        // Assert
+        Assert.Equal(expectedCount, resultList.Count());
+        _sortingServiceMock.Verify(x => x.Sort(It.IsAny<int[]>(), SortingAlgorithm.BubbleSort), Times.Once);
+        _sortingServiceMock.Verify(x => x.Sort(It.IsAny<int[]>(), SortingAlgorithm.InsertionSort), Times.Once);
+        _sortingServiceMock.Verify(x => x.Sort(It.IsAny<int[]>(), SortingAlgorithm.SelectionSort), Times.Once);
+        _sortingServiceMock.Verify(x => x.Sort(It.IsAny<int[]>(), SortingAlgorithm.QuickSort), Times.Once);
+        _sortingServiceMock.Verify(x => x.Sort(It.IsAny<int[]>(), SortingAlgorithm.MergeSort), Times.Once);
     }
 
     [Fact]
