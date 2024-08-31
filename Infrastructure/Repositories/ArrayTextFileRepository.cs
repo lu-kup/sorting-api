@@ -35,15 +35,16 @@ public class ArrayTextFileRepository : IArrayRepository
         await File.WriteAllTextAsync(filePath, arrayData);
     }
 
-    public async Task<string> GetLatestAsync()
+    public async Task<string?> GetLatestAsync()
     {
         var directory = new DirectoryInfo(_dataDirectoryPath);
 
         var latestFile = directory.GetFiles(TextFilePattern)
             .OrderByDescending(f => f.LastWriteTime)
-            .First();
+            .FirstOrDefault();
 
-        var latestFileContents = await File.ReadAllTextAsync(latestFile.FullName);
+        var latestFileContents = latestFile is null ?
+            null : await File.ReadAllTextAsync(latestFile.FullName);
 
         return latestFileContents;
     }

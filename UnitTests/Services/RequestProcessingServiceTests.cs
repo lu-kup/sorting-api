@@ -1,3 +1,5 @@
+#nullable enable
+
 using System.ComponentModel.DataAnnotations;
 using Microsoft.Extensions.Logging;
 using Application.Services;
@@ -45,7 +47,7 @@ public class RequestProcessingServiceTests
             SortingAlgorithm = SortingAlgorithm.BubbleSort
         };
 
-        int[] parsedArray = null;
+        int[]? parsedArray = null;
         _sortingServiceMock
             .Setup(x => x.Sort(It.IsAny<int[]>(), It.IsAny<SortingAlgorithm>()))
             .Callback<int[], SortingAlgorithm>((outputArray, _) => parsedArray = outputArray)
