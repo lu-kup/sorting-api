@@ -5,7 +5,8 @@ namespace UnitTests.Repositories;
 
 public class ArrayTextFileRepositoryTests : IDisposable
 {
-    public const string TestDirectory = "../..";
+    private const string TestDirectory = "../..";
+    private const string ResultFilenamePattern = @"Result_.*.txt";
 
     private readonly IArrayRepository _arrayTextFileRepository;
     private readonly string _testDataPath;
@@ -46,7 +47,7 @@ public class ArrayTextFileRepositoryTests : IDisposable
         var savedData = await File.ReadAllTextAsync(savedFile.FullName);
 
         Assert.Equal(expectedSavedString, savedData);
-        Assert.Matches(@"Result_.*.txt", savedFile.Name);
+        Assert.Matches(ResultFilenamePattern, savedFile.Name);
     }
 
     [Fact]
@@ -73,7 +74,7 @@ public class ArrayTextFileRepositoryTests : IDisposable
 
     public void Dispose()
     {
-        Directory.GetFiles(_testDataPath)
+        Directory.GetFiles(_testDataPath, ArrayTextFileRepository.TextFilePattern)
             .ToList()
             .ForEach(x => File.Delete(x));
     }

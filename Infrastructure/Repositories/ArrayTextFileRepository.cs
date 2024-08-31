@@ -6,8 +6,8 @@ namespace Infrastructure.Repositories;
 public class ArrayTextFileRepository : IArrayRepository
 {
     public const string DataDirectory = "Data";
+    public const string TextFilePattern = @"*.txt";
     private const string InfrastructureDirectory = "Infrastructure";
-    private const string TextFilePattern = @"*.txt";
 
     private readonly string _dataDirectoryPath;
 
