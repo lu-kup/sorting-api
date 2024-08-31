@@ -5,19 +5,19 @@ namespace Infrastructure.Repositories;
 
 public class ArrayTextFileRepository : IArrayRepository
 {
-    private const string DataDirectory = "Data";
+    public const string DataDirectory = "Data";
     private const string InfrastructureDirectory = "Infrastructure";
     private const string TextFilePattern = @"*.txt";
 
     private readonly string _dataDirectoryPath;
 
-    public ArrayTextFileRepository()
+    public ArrayTextFileRepository(string projectDirectory = InfrastructureDirectory)
     {
         var baseDirectory = Directory.GetParent(Directory.GetCurrentDirectory());
 
         _dataDirectoryPath = Path.Combine(
             baseDirectory?.FullName ?? ".",
-            InfrastructureDirectory,
+            projectDirectory,
             DataDirectory);
 
         if (!Directory.Exists(_dataDirectoryPath))
@@ -32,7 +32,7 @@ public class ArrayTextFileRepository : IArrayRepository
 
         var filePath = Path.Combine(_dataDirectoryPath, GenerateFilename());
 
-        await File.WriteAllTextAsync(filePath, arrayData);        
+        await File.WriteAllTextAsync(filePath, arrayData);
     }
 
     public async Task<string> GetLatestAsync()

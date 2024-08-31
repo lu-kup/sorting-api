@@ -4,5 +4,5 @@ using Domain.Models.Enums;
 
 public record SortingOutputDTO : SortingBaseDTO
 {
-    public TimeSpan CalculationTime { get; init; }
+    public required TimeSpan CalculationTime { get; init; }
 }
