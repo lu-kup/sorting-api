@@ -1,7 +1,7 @@
-using System.Diagnostics;
 using Domain.Interfaces.Services;
 using Domain.Models.DTO;
 using Domain.Models.Enums;
+using System.Diagnostics;
 
 namespace Application.Services;
 

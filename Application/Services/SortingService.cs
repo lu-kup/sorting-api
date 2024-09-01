@@ -77,7 +77,7 @@ public class SortingService : ISortingService
     {
         var length = array.Length;
 
-        for (var i = 1; i < length; ++i)
+        for (var i = 1; i < length; i++)
         {
             var currentValue = array[i];
             var j = i - 1;
@@ -87,6 +87,7 @@ public class SortingService : ISortingService
                 array[j + 1] = array[j];
                 j--;
             }
+
             array[j + 1] = currentValue;
         }
 
@@ -151,14 +152,14 @@ public class SortingService : ISortingService
 
     private void RunMergeSort(int[] array)
     {	
-		var length = array.Length;
-		if (length <= 1) return;
+        var length = array.Length;
+        if (length <= 1) return;
 
-		var middleIndex = length / 2;
-		var leftArray = new int[middleIndex];
-		var rightArray = new int[length - middleIndex];
-		
-		var i = 0;
+        var middleIndex = length / 2;
+        var leftArray = new int[middleIndex];
+        var rightArray = new int[length - middleIndex];
+
+        var i = 0;
         while (i < middleIndex)
         {
             leftArray[i] = array[i];
@@ -173,47 +174,47 @@ public class SortingService : ISortingService
             j++;
         }
 
-		RunMergeSort(leftArray);
-		RunMergeSort(rightArray);
-		Merge(leftArray, rightArray, array);
-	}
+        RunMergeSort(leftArray);
+        RunMergeSort(rightArray);
+        Merge(leftArray, rightArray, array);
+    }
 
-	private void Merge(int[] leftArray, int[] rightArray, int[] array)
-    {	
-		var leftLength = leftArray.Length;
-		var rightLength = rightArray.Length;
+    private void Merge(int[] leftArray, int[] rightArray, int[] array)
+    {
+        var leftLength = leftArray.Length;
+        var rightLength = rightArray.Length;
 
-		var i = 0;
+        var i = 0;
         var l = 0;
         var r = 0;
 
-		while(l < leftLength && r < rightLength)
+        while(l < leftLength && r < rightLength)
         {
-			if (leftArray[l] < rightArray[r])
+            if (leftArray[l] < rightArray[r])
             {
-				array[i] = leftArray[l];
-				l++;
-			}
-			else
+                array[i] = leftArray[l];
+                l++;
+            }
+            else
             {
-				array[i] = rightArray[r];
-				r++;
-			}
+                array[i] = rightArray[r];
+                r++;
+            }
             i++;
-		}
-		while (l < leftLength)
+        }
+        while (l < leftLength)
         {
-			array[i] = leftArray[l];
-			i++;
-			l++;
-		}
-		while (r < rightLength)
+            array[i] = leftArray[l];
+            i++;
+            l++;
+        }
+        while (r < rightLength)
         {
-			array[i] = rightArray[r];
-			i++;
-			r++;
-		}
-	}
+            array[i] = rightArray[r];
+            i++;
+            r++;
+        }
+    }
 
     private void Swap(int[] array, int leftIndex, int rightIndex) =>
         (array[leftIndex], array[rightIndex]) = (array[rightIndex], array[leftIndex]);

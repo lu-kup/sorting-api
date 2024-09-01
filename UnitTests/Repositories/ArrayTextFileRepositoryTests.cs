@@ -6,7 +6,7 @@ namespace UnitTests.Repositories;
 public class ArrayTextFileRepositoryTests : IDisposable
 {
     private const string TestDirectory = "../..";
-    private const string ResultFilenamePattern = @"Result_.*.txt";
+    private const string ResultFilenamePattern = @"Result_.*txt";
 
     private readonly IArrayRepository _arrayTextFileRepository;
     private readonly string _testDataPath;

@@ -30,7 +30,9 @@ public class RequestProcessingServiceTests
     [InlineData(" 10 0   3 3 ", new int[] { 10, 0, 3, 3 })]
     [InlineData("1    1 1", new int[] { 1, 1, 1 })]
     [InlineData(" 34534 345  22 34  635 ", new int[] { 34534, 345, 22, 34, 635 })]
-    public async Task SortAsync_GivenValidInputNumberLine_ParsesCorrectly(string numberLine, int[] expectedArray)
+    public async Task SortAsync_GivenValidInputNumberLine_ParsesCorrectly(
+        string numberLine,
+        int[] expectedArray)
     {
         // Arrange
         var sortingInput = new SortingInputDTO()

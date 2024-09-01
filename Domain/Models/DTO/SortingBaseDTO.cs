@@ -1,6 +1,6 @@
-namespace Domain.Models.DTO;
-
 using Domain.Models.Enums;
+
+namespace Domain.Models.DTO;
 
 public record SortingBaseDTO
 {

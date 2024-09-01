@@ -1,9 +1,9 @@
-using System.Text.Json.Serialization;
 using Application.Services;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Infrastructure.Repositories;
 using SortingApi.Middleware;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,11 +1,11 @@
-using Microsoft.Extensions.Logging;
+using Application.Utilities;
 using Domain.Exceptions;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Domain.Models.DTO;
-using Application.Utilities;
 using Domain.Models.Validation;
 using Domain.Models.Enums;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Services;
 
@@ -63,18 +63,18 @@ public class RequestProcessingService : IRequestProcessingService
 
     public async Task<string> GetLatestAsync()
     {
-        var latestArray = await _arrayRepository.GetLatestAsync();
+        var latestNumberLine = await _arrayRepository.GetLatestAsync();
 
-        if (latestArray is null)
+        if (latestNumberLine is null)
         {
             throw new ArrayNotFoundException();
         }
 
-        NumberLineValidation.Validate(latestArray);
+        NumberLineValidation.Validate(latestNumberLine);
 
         _logger.LogInformation(SuccessfullyRetrievedMessage);
 
-        return latestArray;
+        return latestNumberLine;
     }
 
     private SortingOutputDTO MapSortingOutputDTO(SortingResultDTO sortingResult) =>
