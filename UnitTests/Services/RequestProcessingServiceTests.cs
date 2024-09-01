@@ -113,7 +113,7 @@ public class RequestProcessingServiceTests
     {
         // Arrange
         _arrayRepositoryMock.Setup(
-            x => x.GetLatestAsync()).ReturnsAsync((string?) null);
+            x => x.GetLatestAsync()).ReturnsAsync((string?)null);
 
         // Act and assert
         await Assert.ThrowsAsync<ArrayNotFoundException>(

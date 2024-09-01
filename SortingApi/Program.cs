@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using Application.Services;
 using Domain.Interfaces.Repositories;

@@ -18,7 +18,7 @@ public class SortingController : ControllerBase
 
     [ProducesResponseType(201)]
     [HttpPost]
-    public async Task<ActionResult<SortingOutputDTO>> Sort([FromBody] SortingInputDTO sortingInputDTO)
+    public async Task<ActionResult<SortingOutputDTO>> Sort([FromQuery] SortingInputDTO sortingInputDTO)
     {
         var sortingResultDTO = await _requestProcessingService.SortAsync(sortingInputDTO);
 
@@ -27,7 +27,7 @@ public class SortingController : ControllerBase
 
     [ProducesResponseType(201)]
     [HttpPost("all-algorithms")]
-    public async Task<ActionResult<IEnumerable<SortingOutputDTO>>> SortAllAlgorithms([FromBody] string numberLine)
+    public async Task<ActionResult<IEnumerable<SortingOutputDTO>>> SortAllAlgorithms([FromQuery] string numberLine)
     {
         var sortingResultList = await _requestProcessingService.SortAllAlgorithmsAsync(numberLine);
 
