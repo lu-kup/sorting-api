@@ -50,7 +50,7 @@ public class ArrayTextFileRepository : IArrayRepository
     }
 
     private string GenerateFilename() =>
-        $"Result_{DateTime.UtcNow.ToString("MM-dd_HH:mm:ss")}.txt";
+        $"Result_{DateTime.UtcNow.ToString("MM-dd_HH-mm-ss")}.txt";
 
     private string GetDirectoryMissingMessage() => 
         $"Directory at the provided data output path does not exist. Path: {_dataDirectoryPath}";
