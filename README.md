@@ -2,7 +2,20 @@
 
 ### Introduction
 
-This project implements a simple number ordering API.
+This project implements a simple number ordering API. The input numbers are passed as a single string in query parameters. The ordering result is then saved to a text file. Only positive integer values are supported.
+
+Multiple sorting algorithms are implemented:
+- Bubble sort
+- Insertion sort
+- Selection sort
+- Quick sort
+- Merge sort
+
+The user is able to select one of the algorithms when calling the `POST /api/sorting` endpoint by providing an enum value, which is specified by its name (e.g., `"QuickSort"`, `"MergeSort"`, `"BubbleSort"`).
+
+Performance time is displayed along with the sorting result, and the performance can be compared between all implemented algorithms by calling the endpoint `POST /api/sorting/all-algorithms`.
+
+The sorting endpoints save the sorted result to a file (e.g., `Result_08-31_08:51:33.txt`). The files are saved to the directory `Infrastructure/Data`. The latest saved results can be loaded by calling the endpoint `GET /api/sorting`.
 
 ### Clone the repository
 
