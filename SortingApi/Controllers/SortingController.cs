@@ -20,26 +20,26 @@ public class SortingController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<SortingOutputDTO>> Sort([FromQuery] SortingInputDTO sortingInputDTO)
     {
-        var sortingResultDTO = await _requestProcessingService.SortAsync(sortingInputDTO);
+        var sortingOutputDTO = await _requestProcessingService.SortAsync(sortingInputDTO);
 
-        return StatusCode(201, sortingResultDTO);
+        return StatusCode(201, sortingOutputDTO);
     }
 
     [ProducesResponseType(201)]
     [HttpPost("all-algorithms")]
     public async Task<ActionResult<IEnumerable<SortingOutputDTO>>> SortAllAlgorithms([FromQuery] string numberLine)
     {
-        var sortingResultList = await _requestProcessingService.SortAllAlgorithmsAsync(numberLine);
+        var sortingOutputList = await _requestProcessingService.SortAllAlgorithmsAsync(numberLine);
 
-        return StatusCode(201, sortingResultList);
+        return StatusCode(201, sortingOutputList);
     }
 
     [ProducesResponseType(200)]
     [HttpGet]
-    public async Task<ActionResult> GetLatest()
+    public async Task<ActionResult<string>> GetLatest()
     {
-        var sortingResultDTO = await _requestProcessingService.GetLatestAsync();
+        var latestNumberLine = await _requestProcessingService.GetLatestAsync();
 
-        return Ok(sortingResultDTO);
+        return Ok(latestNumberLine);
     }
 }
