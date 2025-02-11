@@ -21,7 +21,7 @@ The sorting endpoints save the sorted result to a file (e.g., `Result_08-31_08:5
 
 We need Web API number ordering solution. This solution should have 2 endpoints:
 
-1. We can pass line of numbers from 1 - 10 (few can be skipped) and these numbers should be ordered and saved to file (for ex. result.txt). For ex. we pass 5 2 8 10 1, this file should be saved with following content 1 2 5 8 10
+1. We can pass line of numbers from 1 - 10 (few can be skipped) and these numbers should be ordered and saved to file (for ex. result.txt). For ex. we pass 5 2 8 10 1, this file should be saved with following content: 1 2 5 8 10
 
 2. We should be able to load content of latest saved file
 
